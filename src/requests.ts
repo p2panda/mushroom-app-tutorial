@@ -1,41 +1,20 @@
-import { GraphQLClient, gql } from "graphql-request";
+import { GraphQLClient, gql } from 'graphql-request';
 import {
   KeyPair,
+  OperationFields,
   encodeOperation,
   signAndEncodeEntry,
-  OperationFields,
 } from 'p2panda-js';
 
 import { ENDPOINT, MUSHROOM_SCHEMA_ID, PICTURE_SCHEMA_ID } from './constants';
 
-import type { Picture, Mushroom } from './types.d';
-
-type NextArgs = {
-  logId: string;
-  seqNum: string;
-  backlink?: string;
-  skiplink?: string;
-};
-
-type Meta = {
-  viewId: string;
-  documentId: string;
-}
-
-type MushroomResponse = {
-  meta: Meta;
-  fields: Mushroom;
-}
-
-type PictureResponse = {
-  meta: Meta;
-  fields: {
-    blob: string;
-    lat: number;
-    lon: number;
-    mushrooms: MushroomResponse[];
-  };
-}
+import type {
+  Mushroom,
+  MushroomResponse,
+  NextArgs,
+  Picture,
+  PictureResponse,
+} from './types.d';
 
 const client = new GraphQLClient(ENDPOINT);
 
@@ -102,7 +81,9 @@ export async function getAllMushrooms(): Promise<MushroomResponse[]> {
   return result.mushrooms;
 }
 
-export async function getMushroom(documentId: string): Promise<MushroomResponse> {
+export async function getMushroom(
+  documentId: string,
+): Promise<MushroomResponse> {
   const query = gql`{
     mushroom: ${MUSHROOM_SCHEMA_ID}(id: "${documentId}") {
       meta {
@@ -122,7 +103,10 @@ export async function getMushroom(documentId: string): Promise<MushroomResponse>
   return result.mushroom;
 }
 
-export async function createMushroom(keyPair: KeyPair, values: Mushroom): Promise<void> {
+export async function createMushroom(
+  keyPair: KeyPair,
+  values: Mushroom,
+): Promise<void> {
   const args = await nextArgs(keyPair.publicKey());
   const operation = encodeOperation({
     schemaId: MUSHROOM_SCHEMA_ID,
@@ -225,4 +209,3 @@ export async function createPicture(keyPair: KeyPair, values: Picture) {
 
   await publish(entry, operation);
 }
-

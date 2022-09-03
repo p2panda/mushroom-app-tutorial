@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { getAllPictures } from './requests';
+import { MushroomResponse } from './types';
 
 export const Pictures = () => {
   const [items, setItems] = useState([]);
@@ -31,9 +32,12 @@ export const Pictures = () => {
               <li key={meta.documentId}>
                 <img src={`data:${fields.blob}`} width="250" />
                 <p>
-                  {fields.mushrooms.map((mushroom) => {
+                  {fields.mushrooms.map((mushroom: MushroomResponse) => {
                     return (
-                      <Link to={`/mushrooms/${mushroom.meta.documentId}`}>
+                      <Link
+                        key={mushroom.meta.documentId}
+                        to={`/mushrooms/${mushroom.meta.documentId}`}
+                      >
                         {mushroom.fields.title} <em>{mushroom.fields.latin}</em>
                       </Link>
                     );

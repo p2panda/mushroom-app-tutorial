@@ -48,4 +48,3 @@ export const App = (props: { keyPair: KeyPair }) => {
     </>
   );
 };
-

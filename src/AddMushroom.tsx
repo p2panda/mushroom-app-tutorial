@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KeyPair } from 'p2panda-js';
 
-import { createMushroom} from './requests';
+import { createMushroom } from './requests';
 import { Mushroom } from './types';
 
 export const AddMushroom = (props: { keyPair: KeyPair }) => {
