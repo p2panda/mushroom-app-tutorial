@@ -16,9 +16,7 @@ export const App = (props: { keyPair: KeyPair }) => {
     <div className="app">
       <header>
         <h1>🐼 🍄</h1>
-        <p className="public-key">
-          Hello, {props.keyPair.publicKey().slice(0, 20)}!
-        </p>
+        <p className="public-key">Hello, {props.keyPair.publicKey()}!</p>
         <nav>
           <ul>
             <li>
