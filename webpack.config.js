@@ -28,5 +28,9 @@ module.exports = {
     historyApiFallback: true,
     hot: false,
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Mushrooms!',
+    }),
+  ],
 };
