@@ -143,6 +143,7 @@ export const UploadPicture = (props: { keyPair: KeyPair }) => {
           <button onClick={onPosition}>Get current position</button>
         </fieldset>
         <fieldset>
+          <label>Mushrooms</label>
           <ul>
             {loading
               ? 'Loading ...'

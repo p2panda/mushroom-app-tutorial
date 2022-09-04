@@ -2,6 +2,8 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { KeyPair } from 'p2panda-js';
 
+import './styles.css';
+
 import { AddMushroom } from './AddMushroom';
 import { EditMushroom } from './EditMushroom';
 import { Mushrooms } from './Mushrooms';
@@ -11,10 +13,12 @@ import { UploadPicture } from './UploadPicture';
 
 export const App = (props: { keyPair: KeyPair }) => {
   return (
-    <>
+    <div className="app">
       <header>
         <h1>🐼 🍄</h1>
-        <p>Hello, {props.keyPair.publicKey()}!</p>
+        <p className="public-key">
+          Hello, {props.keyPair.publicKey().slice(0, 20)}!
+        </p>
         <nav>
           <ul>
             <li>
@@ -45,6 +49,6 @@ export const App = (props: { keyPair: KeyPair }) => {
           />
         </Routes>
       </main>
-    </>
+    </div>
   );
 };

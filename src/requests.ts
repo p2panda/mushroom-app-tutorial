@@ -194,6 +194,8 @@ export async function createPicture(keyPair: KeyPair, values: Picture) {
   });
   fields.insert('mushrooms', 'relation_list', mushrooms);
 
+  console.log(values);
+
   const operation = encodeOperation({
     schemaId: PICTURE_SCHEMA_ID,
     fields,

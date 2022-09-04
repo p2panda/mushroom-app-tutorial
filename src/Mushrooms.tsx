@@ -21,7 +21,9 @@ export const Mushrooms = () => {
   return (
     <>
       <h2>Mushrooms</h2>
-      <Link to="/mushrooms/new">➕ Add mushroom</Link>
+      <section className="actions">
+        <Link to="/mushrooms/new">➕ Add mushroom</Link>
+      </section>
       {loading ? (
         'Loading ..'
       ) : (

@@ -22,27 +22,29 @@ export const Pictures = () => {
   return (
     <>
       <h2>Feed</h2>
-      <Link to="/upload">➕ Upload new picture</Link>
+      <section className="actions">
+        <Link to="/upload">➕ Upload new picture</Link>
+      </section>
       {loading ? (
         'Loading ..'
       ) : (
-        <ul>
+        <ul className="feed">
           {items.map(({ fields, meta }) => {
             return (
               <li key={meta.documentId}>
                 <img src={`data:${fields.blob}`} width="250" />
-                <p>
+                <ul>
                   {fields.mushrooms.map((mushroom: MushroomResponse) => {
                     return (
-                      <Link
-                        key={mushroom.meta.documentId}
-                        to={`/mushrooms/${mushroom.meta.documentId}`}
-                      >
-                        {mushroom.fields.title} <em>{mushroom.fields.latin}</em>
-                      </Link>
+                      <li key={mushroom.meta.documentId}>
+                        <Link to={`/mushrooms/${mushroom.meta.documentId}`}>
+                          {mushroom.fields.title}{' '}
+                          <em>{mushroom.fields.latin}</em>
+                        </Link>
+                      </li>
                     );
                   })}
-                </p>
+                </ul>
               </li>
             );
           })}
