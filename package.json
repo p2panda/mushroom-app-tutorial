@@ -1,5 +1,5 @@
 {
-  "name": "mushroom-tutorial",
+  "name": "mushroom-app-tutorial",
   "version": "1.0.0",
   "description": "A p2panda tutorial",
   "main": "src/index.tsx",
@@ -9,7 +9,15 @@
     "serve": "webpack serve --mode development"
   },
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p2panda/mushroom-app-tutorial.git"
+  },
   "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/p2panda/mushroom-app-tutorial/issues"
+  },
+  "homepage": "https://p2panda.org",
   "dependencies": {
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",
@@ -22,12 +30,12 @@
     "@types/mini-css-extract-plugin": "^2.5.1",
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
-    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
     "css-loader": "^6.7.1",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.4",
+    "eslint-plugin-react": "^7.31.7",
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
