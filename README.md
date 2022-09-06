@@ -1,6 +1,6 @@
 # mushroom-app-tutorial
 
-This is an example app accompanying the p2panda tutorial ["Let's build a mushroom app!"](https://p2panda.org/handbook/tutorials/mushroom-app) with TypeScript, Webpack and React.
+This is an example app accompanying the p2panda tutorial ["Let's build a mushroom app!"](https://p2panda.org/tutorials/mushroom-app) with TypeScript, Webpack and React.
 
 <img src="https://raw.githubusercontent.com/p2panda/mushroom-app-tutorial/main/screenshot.png" width="550" />
 
