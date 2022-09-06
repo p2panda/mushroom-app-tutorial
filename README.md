@@ -9,21 +9,22 @@ This is an example app accompanying the p2panda tutorial ["Let's build a mushroo
 > The best way to learn about this application is to read the tutorial. If you already know what you're doing, you can also get started with the following steps:
 
 1. Install dependencies
-
-  npm install
-
+    ```bash
+    npm install
+    ```
+    
 2. Start your [`aquadoggo`](https://github.com/p2panda/aquadoggo) node
-
 3. Deploy schemas on node
-
-  npm run schema
-
+    ```bash
+    npm run schema
+    ```
+    
 4. Copy the resulting JSON into `schemas.json`
-
 5. Start the application
-
-  npm start
-
+    ```bash
+    npm start
+    ```
+    
 6. Open the webbrowser at http://localhost:8080
 
 ## License
