@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { KeyPair } from 'p2panda-js';
 
-import { createMushroom } from './requests';
-import { Mushroom } from './types';
+import { KeyPairContext } from '../KeyPairContext';
+import { Mushroom } from '../types';
+import { createMushroom } from '../requests';
 
-export const AddMushroom = (props: { keyPair: KeyPair }) => {
+export const AddMushroom = () => {
   const navigate = useNavigate();
+  const { keyPair } = useContext(KeyPairContext);
 
   const [values, setValues] = useState<Mushroom>({
     title: '',
@@ -15,7 +16,9 @@ export const AddMushroom = (props: { keyPair: KeyPair }) => {
     description: '',
   });
 
-  const onChange = (event) => {
+  const onChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = event.target;
 
     setValues((oldValues) => {
@@ -26,9 +29,9 @@ export const AddMushroom = (props: { keyPair: KeyPair }) => {
     });
   };
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await createMushroom(props.keyPair, values);
+    await createMushroom(keyPair, values);
     window.alert('Created mushroom!');
     navigate('/mushrooms');
   };
@@ -76,7 +79,7 @@ export const AddMushroom = (props: { keyPair: KeyPair }) => {
             name="description"
             value={values.description}
             onChange={onChange}
-          ></textarea>
+          />
         </fieldset>
         <input type="submit" value="Add" disabled={disabled} />
       </form>

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { KeyPair } from 'p2panda-js';
 
-import { getMushroom, updateMushroom } from './requests';
-import { Mushroom } from './types';
+import { KeyPairContext } from '../KeyPairContext';
+import { getMushroom, updateMushroom } from '../requests';
+import { Mushroom } from '../types';
 
-export const EditMushroom = (props: { keyPair: KeyPair }) => {
+export const EditMushroom = () => {
   const navigate = useNavigate();
   const { documentId } = useParams();
+  const { keyPair } = useContext(KeyPairContext);
 
   const [loading, setLoading] = useState(true);
   const [viewId, setViewId] = useState<string>();
@@ -30,7 +31,9 @@ export const EditMushroom = (props: { keyPair: KeyPair }) => {
     request();
   }, [documentId]);
 
-  const onChange = (event) => {
+  const onChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = event.target;
 
     setValues((oldValues) => {
@@ -41,9 +44,9 @@ export const EditMushroom = (props: { keyPair: KeyPair }) => {
     });
   };
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await updateMushroom(props.keyPair, viewId, values);
+    await updateMushroom(keyPair, viewId, values);
     window.alert('Updated mushroom!');
     navigate('/mushrooms');
   };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { getAllPictures } from './requests';
-import { MushroomResponse } from './types';
+import { getAllPictures } from '../requests';
+import { MushroomResponse } from '../types';
 
 export const Pictures = () => {
   const [items, setItems] = useState([]);

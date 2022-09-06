@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { getAllMushrooms } from './requests';
+import { getAllMushrooms } from '../requests';
 
 export const Mushrooms = () => {
   const [items, setItems] = useState([]);

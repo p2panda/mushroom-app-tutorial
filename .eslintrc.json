@@ -29,18 +29,6 @@
     ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/no-unescaped-entities": [
-      "error",
-      {
-        "forbid": [
-          ">",
-          "}"
-        ]
-      }
-    ],
-    "prettier/prettier": 1,
-    "react/prop-types": 0,
-    "no-debugger": "warn",
-    "@typescript-eslint/ban-ts-comment": "warn"
+    "prettier/prettier": 1
   }
 }

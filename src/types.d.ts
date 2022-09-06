@@ -1,3 +1,6 @@
+// Make importing .css files in TypeScript code work
+declare module '*.css';
+
 export type Mushroom = {
   title: string;
   description: string;

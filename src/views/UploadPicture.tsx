@@ -1,12 +1,13 @@
-import { KeyPair } from 'p2panda-js';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { createPicture, getAllMushrooms } from './requests';
-import { Picture } from './types';
+import { KeyPairContext } from '../KeyPairContext';
+import { Picture } from '../types';
+import { createPicture, getAllMushrooms } from '../requests';
 
-export const UploadPicture = (props: { keyPair: KeyPair }) => {
+export const UploadPicture = () => {
   const navigate = useNavigate();
+  const { keyPair } = useContext(KeyPairContext);
 
   const [values, setValues] = useState<Picture>({
     blob: '',
@@ -29,7 +30,7 @@ export const UploadPicture = (props: { keyPair: KeyPair }) => {
     request();
   }, []);
 
-  const onChange = (event) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setValues((oldValues) => {
@@ -56,14 +57,14 @@ export const UploadPicture = (props: { keyPair: KeyPair }) => {
     });
   };
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    await createPicture(props.keyPair, values);
+    await createPicture(keyPair, values);
     window.alert('Uploaded picture!');
     navigate('/pictures');
   };
 
-  const onUpload = (event) => {
+  const onUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
 
     if (!files || !files[0]) {
@@ -84,7 +85,7 @@ export const UploadPicture = (props: { keyPair: KeyPair }) => {
     reader.readAsDataURL(files[0]);
   };
 
-  const onPosition = (event) => {
+  const onPosition = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
     const options = {
@@ -93,7 +94,7 @@ export const UploadPicture = (props: { keyPair: KeyPair }) => {
       maximumAge: 0,
     };
 
-    function success(pos) {
+    function success(pos: GeolocationPosition) {
       const crd = pos.coords;
 
       setValues((oldValues) => {
@@ -105,7 +106,7 @@ export const UploadPicture = (props: { keyPair: KeyPair }) => {
       });
     }
 
-    function error(err) {
+    function error(err: GeolocationPositionError) {
       window.alert(`ERROR(${err.code}): ${err.message}`);
     }
 
@@ -129,14 +130,18 @@ export const UploadPicture = (props: { keyPair: KeyPair }) => {
           <input
             type="text"
             id="lat"
+            className="gps"
             name="lat"
+            disabled
             value={values.lat}
             onChange={onChange}
           />
           <input
             type="text"
             id="lon"
+            className="gps"
             name="lon"
+            disabled
             value={values.lon}
             onChange={onChange}
           />

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { getMushroom } from './requests';
-import { Mushroom } from './types';
+import { getMushroom } from '../requests';
+import { Mushroom } from '../types';
 
 export const ShowMushroom = () => {
   const { documentId } = useParams();

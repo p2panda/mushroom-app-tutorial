@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "lint": "eslint --ext .ts --ext .tsx .",
-    "serve": "webpack serve --mode development"
+    "serve": "webpack serve --mode development",
+    "typecheck": "tsc --noEmit"
   },
   "private": true,
   "repository": {

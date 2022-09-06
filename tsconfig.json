@@ -4,9 +4,5 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "jsx": "react"
-  },
-  "include": [
-    "./src/**/*",
-    "./globals.d.ts"
-  ]
+  }
 }

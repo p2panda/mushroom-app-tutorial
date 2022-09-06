@@ -2,39 +2,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.app {
-  width: 100%;
-  margin: 40px auto;
-  max-width: 600px;
-  border-radius: 20px;
-  border: #60B9CD 10px solid;
-  background-color: #effaf3;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-}
-
-.actions {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.actions a {
-  background-color: #b0b7cf;
-  color: #303851;
-}
-
-.public-key {
-  text-align: center;
-}
-
-.feed {
-  text-align: center;
-}
-
-.feed img {
-  margin-top: 20px;
-}
-
 h1,
 h2,
 h3 {
@@ -114,4 +81,50 @@ input[type="text"] {
 label span {
   font-weight: 400;
   cursor: pointer;
+}
+
+.app {
+  width: 100%;
+  margin: 40px auto;
+  max-width: 600px;
+  border-radius: 20px;
+  border: #60B9CD 10px solid;
+  background-color: #effaf3;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.actions {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.actions a {
+  background-color: #b0b7cf;
+  color: #303851;
+}
+
+.public-key {
+  text-align: center;
+}
+
+.feed {
+  text-align: center;
+}
+
+.feed img {
+  margin-top: 20px;
+}
+
+.navigation-link {
+  color: #0000ff;
+}
+
+.navigation-link-active {
+  border-bottom: 2px solid #0000ff;
+}
+
+input.gps {
+  width: 100px;
+  background-color: #fff;
 }
