@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = () => {
   if (!fs.existsSync('./schemas.json')) {
     throw new Error(
-      'You have to create a `schemas.json` file first.\n\nPlease start a p2panda node and run `npm run schema`.',
+      'You have to create a `schemas.json` file first! Please start your p2panda node and run `npm run schema`.',
     );
   }
 
