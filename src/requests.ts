@@ -1,4 +1,4 @@
-import { GraphQLClient, gql } from 'graphql-request';
+import { GraphQLClient, gql, RequestDocument } from 'graphql-request';
 import {
   KeyPair,
   OperationFields,
@@ -6,7 +6,7 @@ import {
   signAndEncodeEntry,
 } from 'p2panda-js';
 
-import { ENDPOINT, MUSHROOM_SCHEMA_ID, PICTURE_SCHEMA_ID } from './constants';
+import { ENDPOINT, MUSHROOM_SCHEMA_ID, FINDINGS_SCHEMA_ID } from './constants';
 
 import type {
   Mushroom,
@@ -17,6 +17,19 @@ import type {
 } from './types.d';
 
 const client = new GraphQLClient(ENDPOINT);
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function request(query: RequestDocument, variables?: any) {
+  try {
+    return await client.request(query, variables);
+  } catch (error) {
+    console.error(error);
+
+    window.alert(
+      'Error: Could not connect to node.\n\n- Did you start the node at port `2020`?\n- Did you deploy the schemas (via `npm run schema`) and changed the schema ids in `./src/constants.ts`?',
+    );
+  }
+}
 
 async function nextArgs(publicKey: string, viewId?: string): Promise<NextArgs> {
   const query = gql`
@@ -30,7 +43,7 @@ async function nextArgs(publicKey: string, viewId?: string): Promise<NextArgs> {
     }
   `;
 
-  const result = await client.request(query, {
+  const result = await request(query, {
     publicKey,
     viewId,
   });
@@ -53,7 +66,7 @@ export async function publish(
     }
   `;
 
-  const result = await client.request(query, {
+  const result = await request(query, {
     entry,
     operation,
   });
@@ -77,7 +90,7 @@ export async function getAllMushrooms(): Promise<MushroomResponse[]> {
     }
   }`;
 
-  const result = await client.request(query);
+  const result = await request(query);
   return result.mushrooms;
 }
 
@@ -99,7 +112,7 @@ export async function getMushroom(
     }
   }`;
 
-  const result = await client.request(query);
+  const result = await request(query);
   return result.mushroom;
 }
 
@@ -154,7 +167,7 @@ export async function updateMushroom(
 
 export async function getAllPictures(): Promise<PictureResponse[]> {
   const query = gql`{
-    pictures: all_${PICTURE_SCHEMA_ID} {
+    pictures: all_${FINDINGS_SCHEMA_ID} {
       meta {
         documentId
         viewId,
@@ -179,7 +192,7 @@ export async function getAllPictures(): Promise<PictureResponse[]> {
     }
   }`;
 
-  const result = await client.request(query);
+  const result = await request(query);
   return result.pictures;
 }
 
@@ -194,10 +207,8 @@ export async function createPicture(keyPair: KeyPair, values: Picture) {
   });
   fields.insert('mushrooms', 'relation_list', mushrooms);
 
-  console.log(values);
-
   const operation = encodeOperation({
-    schemaId: PICTURE_SCHEMA_ID,
+    schemaId: FINDINGS_SCHEMA_ID,
     fields,
   });
 
