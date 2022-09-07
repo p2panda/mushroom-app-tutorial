@@ -131,7 +131,7 @@ export async function createMushroom(
   const entry = signAndEncodeEntry(
     {
       ...args,
-      payload: operation,
+      operation,
     },
     keyPair,
   );
@@ -141,14 +141,14 @@ export async function createMushroom(
 
 export async function updateMushroom(
   keyPair: KeyPair,
-  viewId: string,
+  previous: string,
   values: Mushroom,
 ): Promise<void> {
-  const args = await nextArgs(keyPair.publicKey(), viewId);
+  const args = await nextArgs(keyPair.publicKey(), previous);
   const operation = encodeOperation({
     action: 'update',
     schemaId: MUSHROOM_SCHEMA_ID,
-    previousOperations: viewId.split('_'),
+    previous,
     fields: {
       ...values,
     },
@@ -157,7 +157,7 @@ export async function updateMushroom(
   const entry = signAndEncodeEntry(
     {
       ...args,
-      payload: operation,
+      operation,
     },
     keyPair,
   );
@@ -215,7 +215,7 @@ export async function createPicture(keyPair: KeyPair, values: Picture) {
   const entry = signAndEncodeEntry(
     {
       ...args,
-      payload: operation,
+      operation,
     },
     keyPair,
   );

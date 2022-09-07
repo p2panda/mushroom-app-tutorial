@@ -120,7 +120,7 @@ async function createFields(
   for (const field of fields) {
     const args = await nextArgs(client, keyPair.publicKey());
 
-    const payload = encodeOperation({
+    const operation = encodeOperation({
       action: 'create',
       schemaId: 'schema_field_definition_v1',
       fields: {
@@ -131,12 +131,12 @@ async function createFields(
     const entry = signAndEncodeEntry(
       {
         ...args,
-        payload,
+        operation,
       },
       keyPair,
     );
 
-    const { backlink } = await publish(client, entry, payload);
+    const { backlink } = await publish(client, entry, operation);
     console.log(`Created schema field ${backlink}`);
     results.push([backlink]);
   }
@@ -159,7 +159,7 @@ async function createSchema(
   });
   operationFields.insert('fields', 'pinned_relation_list', fields);
 
-  const payload = encodeOperation({
+  const operation = encodeOperation({
     action: 'create',
     schemaId: 'schema_definition_v1',
     fields: operationFields,
@@ -168,12 +168,12 @@ async function createSchema(
   const entry = signAndEncodeEntry(
     {
       ...args,
-      payload,
+      operation,
     },
     keyPair,
   );
 
-  const { backlink } = await publish(client, entry, payload);
+  const { backlink } = await publish(client, entry, operation);
   console.log(`Created schema ${name}_${backlink}`);
   return `${name}_${backlink}`;
 }
