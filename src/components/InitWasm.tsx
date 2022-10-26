@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { initWebAssembly } from 'p2panda-js';
+import { initWebAssembly } from 'shirokuma';
 
 type Props = {
   children: JSX.Element;

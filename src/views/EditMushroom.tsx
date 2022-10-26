@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { KeyPairContext } from '../KeyPairContext';
+import { P2pandaContext } from '../P2pandaContext';
 import { getMushroom, updateMushroom } from '../requests';
 import { Mushroom } from '../types';
 
 export const EditMushroom = () => {
   const navigate = useNavigate();
   const { documentId } = useParams();
-  const { keyPair } = useContext(KeyPairContext);
+  const { session } = useContext(P2pandaContext);
 
   const [loading, setLoading] = useState(true);
   const [viewId, setViewId] = useState<string>();
@@ -46,7 +46,7 @@ export const EditMushroom = () => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await updateMushroom(keyPair, viewId, values);
+    await updateMushroom(session, viewId, values);
     window.alert('Updated mushroom!');
     navigate('/mushrooms');
   };

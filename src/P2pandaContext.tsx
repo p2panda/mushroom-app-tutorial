@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { KeyPair } from 'p2panda-js';
+import { KeyPair, Session } from 'shirokuma';
+import { ENDPOINT } from './constants';
 
 const LOCAL_STORAGE_KEY = 'privateKey';
 
@@ -17,28 +18,32 @@ function getKeyPair(): KeyPair {
 type Context = {
   publicKey: string | null;
   keyPair: KeyPair | null;
+  session: Session | null;
 };
 
-export const KeyPairContext = React.createContext<Context>({
+export const P2pandaContext = React.createContext<Context>({
   publicKey: null,
   keyPair: null,
+  session: null,
 });
 
 type Props = {
   children: JSX.Element;
 };
 
-export const KeyPairProvider: React.FC<Props> = ({ children }) => {
+export const P2pandaProvider: React.FC<Props> = ({ children }) => {
   const state = useMemo(() => {
     const keyPair = getKeyPair();
+    const session = new Session(ENDPOINT).setKeyPair(keyPair);
 
     return {
       keyPair,
       publicKey: keyPair.publicKey(),
+      session,
     };
   }, []);
 
   return (
-    <KeyPairContext.Provider value={state}>{children}</KeyPairContext.Provider>
+    <P2pandaContext.Provider value={state}>{children}</P2pandaContext.Provider>
   );
 };
