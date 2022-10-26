@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { KeyPairContext } from '../KeyPairContext';
+import { P2pandaContext } from '../P2pandaContext';
 import { Picture } from '../types';
 import { createPicture, getAllMushrooms } from '../requests';
 
 export const UploadPicture = () => {
   const navigate = useNavigate();
-  const { keyPair } = useContext(KeyPairContext);
+  const { session } = useContext(P2pandaContext);
 
   const [values, setValues] = useState<Picture>({
     blob: '',
@@ -59,7 +59,7 @@ export const UploadPicture = () => {
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    await createPicture(keyPair, values);
+    await createPicture(session, values);
     window.alert('Uploaded picture!');
     navigate('/pictures');
   };

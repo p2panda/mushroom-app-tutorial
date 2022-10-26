@@ -5,18 +5,18 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 import { App, InitWasm } from './components';
-import { KeyPairProvider } from './KeyPairContext';
+import { P2pandaProvider } from './P2pandaContext';
 import { Router } from './Router';
 
 const Root: React.FC = () => {
   return (
     <InitWasm>
       <BrowserRouter>
-        <KeyPairProvider>
+        <P2pandaProvider>
           <App>
             <Router />
           </App>
-        </KeyPairProvider>
+        </P2pandaProvider>
       </BrowserRouter>
     </InitWasm>
   );
