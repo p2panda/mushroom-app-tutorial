@@ -34,7 +34,7 @@ export const Pictures = () => {
               <li key={meta.documentId}>
                 <img src={`data:${fields.blob}`} width="250" />
                 <ul>
-                  {fields.mushrooms.map((mushroom: MushroomResponse) => {
+                  {fields.mushrooms.documents.map((mushroom: MushroomResponse) => {
                     return (
                       <li key={mushroom.meta.documentId}>
                         <Link to={`/mushrooms/${mushroom.meta.documentId}`}>

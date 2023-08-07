@@ -77,21 +77,23 @@ export async function publish(
 export async function getAllMushrooms(): Promise<MushroomResponse[]> {
   const query = gql`{
     mushrooms: all_${MUSHROOM_SCHEMA_ID} {
-      meta {
-        documentId
-        viewId
-      }
-      fields {
-        description
-        edible
-        latin
-        title
+      documents {
+        meta {
+          documentId
+          viewId
+        }
+        fields {
+          description
+          edible
+          latin
+          title
+        }  
       }
     }
   }`;
 
   const result = await request(query);
-  return result.mushrooms;
+  return result.mushrooms.documents;
 }
 
 export async function getMushroom(
@@ -168,24 +170,28 @@ export async function updateMushroom(
 export async function getAllPictures(): Promise<PictureResponse[]> {
   const query = gql`{
     pictures: all_${FINDINGS_SCHEMA_ID} {
-      meta {
-        documentId
-        viewId,
-      }
-      fields {
-        blob
-        lat
-        lon
-        mushrooms {
-          meta {
-            documentId
-            viewId
-          }
-          fields {
-            description
-            edible
-            latin
-            title
+      documents {
+        meta {
+          documentId
+          viewId,
+        }
+        fields {
+          blob
+          lat
+          lon
+          mushrooms {
+            documents {
+              meta {
+                documentId
+                viewId
+              }
+              fields {
+                description
+                edible
+                latin
+                title
+              }
+            }
           }
         }
       }
@@ -193,7 +199,7 @@ export async function getAllPictures(): Promise<PictureResponse[]> {
   }`;
 
   const result = await request(query);
-  return result.pictures;
+  return result.pictures.documents;
 }
 
 export async function createPicture(keyPair: KeyPair, values: Picture) {
