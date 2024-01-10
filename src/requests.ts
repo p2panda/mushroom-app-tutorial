@@ -1,5 +1,5 @@
 import { GraphQLClient, gql, RequestDocument } from 'graphql-request';
-import { Session } from 'shirokuma';
+import { OperationFields, Session } from 'shirokuma';
 
 import { ENDPOINT, MUSHROOM_SCHEMA_ID, FINDINGS_SCHEMA_ID } from './constants';
 
@@ -97,7 +97,7 @@ export async function createMushroom(
   session: Session,
   values: Mushroom,
 ): Promise<void> {
-  await session.create(values, { schema: MUSHROOM_SCHEMA_ID });
+  await session.create(values, { schemaId: MUSHROOM_SCHEMA_ID });
 }
 
 export async function updateMushroom(
@@ -106,7 +106,7 @@ export async function updateMushroom(
   values: Mushroom,
 ): Promise<void> {
   await session.update(values, previous.split('_'), {
-    schema: MUSHROOM_SCHEMA_ID,
+    schemaId: MUSHROOM_SCHEMA_ID,
   });
 }
 
@@ -146,5 +146,12 @@ export async function getAllPictures(): Promise<PictureResponse[]> {
 }
 
 export async function createPicture(session: Session, values: Picture) {
-  await session.create(values, { schema: FINDINGS_SCHEMA_ID });
+  const easy_values = {
+    lat: values.lat,
+    lon: values.lon,
+  };
+  const operation_fields = new OperationFields(easy_values);
+  operation_fields.insert('blob', 'str', values.blob);
+  operation_fields.insert('mushrooms', 'relation_list', values.mushrooms);
+  await session.create(operation_fields, { schemaId: FINDINGS_SCHEMA_ID });
 }
