@@ -6,7 +6,6 @@ import { ENDPOINT, MUSHROOM_SCHEMA_ID, FINDINGS_SCHEMA_ID } from './constants';
 import type {
   Mushroom,
   MushroomResponse,
-  NextArgs,
   Picture,
   PictureResponse,
 } from './types.d';
@@ -24,29 +23,6 @@ async function request(query: RequestDocument, variables?: any) {
       'Error: Could not connect to node.\n\n- Did you start the node at port `2020`?\n- Did you deploy the schemas (via `npm run schema`) and changed the schema ids in `./src/constants.ts`?',
     );
   }
-}
-
-export async function publish(
-  entry: string,
-  operation: string,
-): Promise<NextArgs> {
-  const query = gql`
-    mutation Publish($entry: String!, $operation: String!) {
-      publish(entry: $entry, operation: $operation) {
-        logId
-        seqNum
-        backlink
-        skiplink
-      }
-    }
-  `;
-
-  const result = await request(query, {
-    entry,
-    operation,
-  });
-
-  return result.publish;
 }
 
 export async function getAllMushrooms(): Promise<MushroomResponse[]> {
