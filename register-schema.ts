@@ -1,13 +1,7 @@
 import fs from 'fs';
 
 import yargs from 'yargs';
-import { GraphQLClient, gql } from 'graphql-request';
-import {
-  KeyPair,
-  OperationFields,
-  encodeOperation,
-  signAndEncodeEntry,
-} from 'p2panda-js';
+import { DocumentViewId, KeyPair, OperationFields, Session } from 'shirokuma';
 import { hideBin } from 'yargs/helpers';
 
 // This fixes getting an ECONNREFUSED when making a request against localhost
@@ -53,144 +47,60 @@ const FINDING_FIELDS: Field[] = [
   },
 ];
 
-type PinnedRelationList = string[][];
-
-type NextArgs = {
-  logId: string;
-  seqNum: string;
-  backlink?: string;
-  skiplink?: string;
-};
-
-async function nextArgs(
-  client: GraphQLClient,
-  publicKey: string,
-  viewId?: string,
-): Promise<NextArgs> {
-  const query = gql`
-    query NextArgs($publicKey: String!, $viewId: String) {
-      nextArgs(publicKey: $publicKey, viewId: $viewId) {
-        logId
-        seqNum
-        backlink
-        skiplink
-      }
-    }
-  `;
-
-  const result = await client.request(query, {
-    publicKey,
-    viewId,
-  });
-
-  return result.nextArgs;
-}
-
-async function publish(
-  client: GraphQLClient,
-  entry: string,
-  operation: string,
-): Promise<NextArgs> {
-  const query = gql`
-    mutation Publish($entry: String!, $operation: String!) {
-      publish(entry: $entry, operation: $operation) {
-        logId
-        seqNum
-        backlink
-        skiplink
-      }
-    }
-  `;
-
-  const result = await client.request(query, {
-    entry,
-    operation,
-  });
-
-  return result.publish;
-}
+type PinnedRelationList = DocumentViewId[];
 
 async function createFields(
-  client: GraphQLClient,
-  keyPair: KeyPair,
+  session: Session,
   fields: Field[],
 ): Promise<PinnedRelationList> {
   const results: PinnedRelationList = [];
 
   for (const field of fields) {
-    const args = await nextArgs(client, keyPair.publicKey());
-
-    const operation = encodeOperation({
-      action: 'create',
+    const documentViewId = await session.create(field, {
       schemaId: 'schema_field_definition_v1',
-      fields: {
-        ...field,
-      },
     });
 
-    const entry = signAndEncodeEntry(
-      {
-        ...args,
-        operation,
-      },
-      keyPair,
-    );
-
-    const { backlink } = await publish(client, entry, operation);
-    console.log(`Created schema field ${backlink}`);
-    results.push([backlink]);
+    console.log(`Created schema field ${documentViewId}`);
+    results.push([documentViewId as string]);
   }
 
   return results;
 }
 
 async function createSchema(
-  client: GraphQLClient,
-  keyPair: KeyPair,
+  session: Session,
   name: string,
   description: string,
   fields: PinnedRelationList,
 ): Promise<string> {
-  const args = await nextArgs(client, keyPair.publicKey());
-
-  const operationFields = new OperationFields({
+  const operation_fields = new OperationFields({
     name,
     description,
   });
-  operationFields.insert('fields', 'pinned_relation_list', fields);
-
-  const operation = encodeOperation({
-    action: 'create',
-    schemaId: 'schema_definition_v1',
-    fields: operationFields,
-  });
-
-  const entry = signAndEncodeEntry(
-    {
-      ...args,
-      operation,
-    },
-    keyPair,
+  console.log(fields);
+  operation_fields.insert(
+    'fields',
+    'pinned_relation_list',
+    fields as string[][],
   );
 
-  const { backlink } = await publish(client, entry, operation);
-  console.log(`Created schema ${name}_${backlink}`);
-  return `${name}_${backlink}`;
+  const documentViewId = await session.create(operation_fields, {
+    schemaId: 'schema_definition_v1',
+  });
+
+  console.log(`Created schema ${name}_${documentViewId as string}`);
+  return `${name}_${documentViewId as string}`;
 }
 
-async function createMushroomSchema(
-  client: GraphQLClient,
-  keyPair: KeyPair,
-): Promise<string> {
+async function createMushroomSchema(session: Session): Promise<string> {
   const name = 'mushroom';
   const description = 'Informations and details about mushrooms';
-  const fields = await createFields(client, keyPair, MUSHROOM_FIELDS);
-  return await createSchema(client, keyPair, name, description, fields);
+  const fields = await createFields(session, MUSHROOM_FIELDS);
+  return await createSchema(session, name, description, fields);
 }
 
 async function createFindingSchema(
-  client: GraphQLClient,
-  keyPair: KeyPair,
+  session: Session,
   mushroomSchemaId: string,
 ): Promise<string> {
   const name = 'mushroom_finding';
@@ -203,8 +113,8 @@ async function createFindingSchema(
     },
   ]);
 
-  const fields = await createFields(client, keyPair, findingFields);
-  return await createSchema(client, keyPair, name, description, fields);
+  const fields = await createFields(session, findingFields);
+  return await createSchema(session, name, description, fields);
 }
 
 function loadKeyPair(path: string) {
@@ -223,14 +133,10 @@ function loadKeyPair(path: string) {
 async function run(keyPair: KeyPair, endpoint: string) {
   console.log('Create and deploy schemas for the mushroom tutorial app');
 
-  const client = new GraphQLClient(endpoint);
+  const session = new Session(endpoint).setKeyPair(keyPair);
 
-  const mushroomSchemaId = await createMushroomSchema(client, keyPair);
-  const findingSchemaId = await createFindingSchema(
-    client,
-    keyPair,
-    mushroomSchemaId,
-  );
+  const mushroomSchemaId = await createMushroomSchema(session);
+  const findingSchemaId = await createFindingSchema(session, mushroomSchemaId);
 
   console.log();
   console.log(
