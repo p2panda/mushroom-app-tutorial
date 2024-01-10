@@ -24,10 +24,10 @@
   "dependencies": {
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",
-    "p2panda-js": "^0.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "shirokuma": "^0.1.2"
   },
   "devDependencies": {
     "@types/mini-css-extract-plugin": "^2.5.1",

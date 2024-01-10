@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { KeyPairContext } from '../KeyPairContext';
+import { P2pandaContext } from '../P2pandaContext';
 import { Mushroom } from '../types';
 import { createMushroom } from '../requests';
 
 export const AddMushroom = () => {
   const navigate = useNavigate();
-  const { keyPair } = useContext(KeyPairContext);
+  const { session } = useContext(P2pandaContext);
 
   const [values, setValues] = useState<Mushroom>({
     title: '',
@@ -31,7 +31,7 @@ export const AddMushroom = () => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await createMushroom(keyPair, values);
+    await createMushroom(session, values);
     window.alert('Created mushroom!');
     navigate('/mushrooms');
   };
