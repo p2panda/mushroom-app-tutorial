@@ -34,16 +34,18 @@ export const Pictures = () => {
               <li key={meta.documentId}>
                 <img src={`data:${fields.blob}`} width="250" />
                 <ul>
-                  {fields.mushrooms.documents.map((mushroom: MushroomResponse) => {
-                    return (
-                      <li key={mushroom.meta.documentId}>
-                        <Link to={`/mushrooms/${mushroom.meta.documentId}`}>
-                          {mushroom.fields.title}{' '}
-                          <em>{mushroom.fields.latin}</em>
-                        </Link>
-                      </li>
-                    );
-                  })}
+                  {fields.mushrooms.documents.map(
+                    (mushroom: MushroomResponse) => {
+                      return (
+                        <li key={mushroom.meta.documentId}>
+                          <Link to={`/mushrooms/${mushroom.meta.documentId}`}>
+                            {mushroom.fields.title}{' '}
+                            <em>{mushroom.fields.latin}</em>
+                          </Link>
+                        </li>
+                      );
+                    },
+                  )}
                 </ul>
               </li>
             );
