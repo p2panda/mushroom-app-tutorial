@@ -15,13 +15,6 @@ export type Picture = {
   mushrooms: string[];
 };
 
-export type NextArgs = {
-  logId: string;
-  seqNum: string;
-  backlink?: string;
-  skiplink?: string;
-};
-
 export type Meta = {
   viewId: string;
   documentId: string;

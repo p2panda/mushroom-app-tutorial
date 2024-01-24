@@ -122,7 +122,7 @@ export const UploadPicture = () => {
       <form onSubmit={onSubmit}>
         <fieldset>
           <label htmlFor="blob">Image</label>
-          {values.blob && <img src={`data:${values.blob}`} width="150" />}
+          {values.blob && <img src={values.blob} width="150" />}
           <input id="blob" type="file" onChange={onUpload} />
         </fieldset>
         <fieldset>

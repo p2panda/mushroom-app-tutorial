@@ -95,7 +95,11 @@ export async function getAllPictures(): Promise<PictureResponse[]> {
           viewId,
         }
         fields {
-          blob
+          blob {
+            meta {
+              documentId
+            }
+          }
           lat
           lon
           mushrooms {
@@ -122,12 +126,15 @@ export async function getAllPictures(): Promise<PictureResponse[]> {
 }
 
 export async function createPicture(session: Session, values: Picture) {
+  const result = await fetch(values.blob);
+  const blob = await result.blob();
+  const blobId = await session.createBlob(blob);
   const easy_values = {
     lat: values.lat,
     lon: values.lon,
   };
   const operation_fields = new OperationFields(easy_values);
-  operation_fields.insert('blob', 'str', values.blob);
+  operation_fields.insert('blob', 'relation', blobId);
   operation_fields.insert('mushrooms', 'relation_list', values.mushrooms);
   await session.create(operation_fields, { schemaId: FINDINGS_SCHEMA_ID });
 }
