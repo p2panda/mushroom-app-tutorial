@@ -34,10 +34,6 @@ const MUSHROOM_FIELDS: Field[] = [
 
 const FINDING_FIELDS: Field[] = [
   {
-    name: 'blob',
-    type: 'str',
-  },
-  {
     name: 'lat',
     type: 'float',
   },
@@ -107,6 +103,10 @@ async function createFindingSchema(
   const description = 'Picture and GPS position of a found mushroom';
 
   const findingFields = FINDING_FIELDS.concat([
+    {
+      name: 'blob',
+      type: `relation(blob_v1)`,
+    },
     {
       name: 'mushrooms',
       type: `relation_list(${mushroomSchemaId})`,

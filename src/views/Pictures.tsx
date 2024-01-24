@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { getAllPictures } from '../requests';
 import { MushroomResponse } from '../types';
+import { BLOB_ENDPOINT } from '../constants';
 
 export const Pictures = () => {
   const [items, setItems] = useState([]);
@@ -32,7 +33,10 @@ export const Pictures = () => {
           {items.map(({ fields, meta }) => {
             return (
               <li key={meta.documentId}>
-                <img src={`data:${fields.blob}`} width="250" />
+                <img
+                  src={`${BLOB_ENDPOINT}/${fields.blob.meta.documentId}`}
+                  width="250"
+                />
                 <ul>
                   {fields.mushrooms.documents.map(
                     (mushroom: MushroomResponse) => {
