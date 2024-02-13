@@ -33,6 +33,8 @@ This is an example app accompanying the p2panda tutorial ["Let's build a mushroo
 
 ## Supported by
 
+
+<img src="https://raw.githubusercontent.com/p2panda/.github/main/assets/nlnet-logo.svg" width="auto" height="80px"><br />
 <img src="https://raw.githubusercontent.com/p2panda/.github/main/assets/ngi-logo.png" width="auto" height="80px"><br />
 <img src="https://raw.githubusercontent.com/p2panda/.github/main/assets/eu-flag-logo.png" width="auto" height="80px">
 
